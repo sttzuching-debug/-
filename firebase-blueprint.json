@@ -1,0 +1,66 @@
+{
+  "entities": {
+    "User": {
+      "title": "Hospital Clerk User",
+      "description": "User profile for hospital clerk",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["ADMIN", "USER"] },
+        "preferences": {
+          "type": "object",
+          "properties": {
+            "preferredShift": { "type": "string" },
+            "unwantedDates": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "role"]
+    },
+    "Shift": {
+      "title": "Shift Assignment",
+      "description": "A single shift assignment for a user on a date",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "type": { "type": "string", "enum": ["7M", "7S", "3M", "3S", "11", "OFF"] },
+        "isOvertime": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "date", "type"]
+    },
+    "Request": {
+      "title": "Swap or Overtime Request",
+      "description": "Request for swapping shifts or working overtime",
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "enum": ["SWAP", "OVERTIME"] },
+        "status": { "type": "string", "enum": ["PENDING", "APPROVED", "REJECTED"] },
+        "fromUserId": { "type": "string" },
+        "toUserId": { "type": "string" },
+        "fromDate": { "type": "string" },
+        "toDate": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["type", "status", "fromUserId"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "User profiles and preferences"
+    },
+    "schedules/{yearMonth}/assignments/{assignmentId}": {
+      "schema": "Shift",
+      "description": "Monthly shift assignments"
+    },
+    "requests/{requestId}": {
+      "schema": "Request",
+      "description": "Swap and overtime requests"
+    }
+  }
+}

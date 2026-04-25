@@ -1,0 +1,6 @@
+{
+  "name": "醫院書記排班系統",
+  "description": "專為醫院書記設計的自動排班系統，支援勞基法規則檢查、AI 建議、手機即時換班及 Excel 匯出。",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
